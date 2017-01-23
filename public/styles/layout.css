@@ -27,3 +27,11 @@ body {
  html {
    font-family: 'Roboto Condensed', sans-serif;
  }
+
+ main {
+   background-color: white;
+   width: 450px;
+   margin: auto;
+   padding-top: 100px;
+   padding-bottom: 140px;
+ }
