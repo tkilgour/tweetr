@@ -5,7 +5,6 @@
  */
 html {
   box-sizing: border-box;
-  font-family: 'Roboto Condensed', sans-serif;
 }
 *, *:before, *:after {
   box-sizing: inherit;
@@ -24,3 +23,7 @@ body {
 /*
  * Additional CSS can be defined below or in other CSS files, as per instructions
  */
+
+ html {
+   font-family: 'Roboto Condensed', sans-serif;
+ }
