@@ -127,6 +127,24 @@ $(document).ready(function() {
 
   renderTweets(data);
 
+  $('#submit-tweet').on('submit', function(event) {
+    event.preventDefault();
+
+    let $request = $(this).serialize();
+
+    $.ajax({
+      method: 'POST',
+      url: '/tweets/',
+      data: $request
+    })
+    .done(function() {
+      console.log('done');
+    })
+    .fail(function() {
+      console.error('The POST failed.');
+    });
+  });
+
   $('.tweet').hover(function() {
     $(this).find(".hover-icons").css("visibility", "visible");
     $(this).css("border-color", "#888");
