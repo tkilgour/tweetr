@@ -19,7 +19,7 @@
   background-color: white;
   border-radius: 5px;
   float: left;
-  filter: saturate(70%);
+  filter: saturate(60%);
 }
 
 .tweet .name {
