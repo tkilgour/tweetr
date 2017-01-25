@@ -20,6 +20,13 @@
   width: 100%;
 }
 
+#flash {
+  display: none;
+  color: #b20000;
+  margin-left: 5px;
+  font-size: 14px;
+}
+
 .new-tweet .counter {         /* 140 */
   float: right;
   margin: 5px;

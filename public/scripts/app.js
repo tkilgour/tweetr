@@ -7,6 +7,7 @@ $(document).ready(function() {
 
 
   // Takes a UNIX timestamp and converts it to 'time ago' eg. (5 days ago)
+  // source: http://stackoverflow.com/questions/6108819/javascript-timestamp-to-relative-time-eg-2-seconds-ago-one-week-ago-etc-best
   function timeDifference(datestamp) {
 
       var msPerMinute = 60 * 1000;
@@ -73,87 +74,53 @@ $(document).ready(function() {
   function renderTweets(arrayOfTweets) {
     for (let tweet of arrayOfTweets) {
       let $tweetElement = createTweetElement(tweet);
-      $('#tweets-container').append($tweetElement);
+      $('#tweets-container').prepend($tweetElement);
     }
   }
 
-  // Fake data taken from tweets.json
-  var data = [
-    {
-      "user": {
-        "name": "Newton",
-        "avatars": {
-          "small":   "https://vanillicon.com/788e533873e80d2002fa14e1412b4188_50.png",
-          "regular": "https://vanillicon.com/788e533873e80d2002fa14e1412b4188.png",
-          "large":   "https://vanillicon.com/788e533873e80d2002fa14e1412b4188_200.png"
-        },
-        "handle": "@SirIsaac"
-      },
-      "content": {
-        "text": "If I have seen further it is by standing on the shoulders of giants"
-      },
-      "created_at": 1461116232227
-    },
-    {
-      "user": {
-        "name": "Descartes",
-        "avatars": {
-          "small":   "https://vanillicon.com/7b89b0d8280b93e2ba68841436c0bebc_50.png",
-          "regular": "https://vanillicon.com/7b89b0d8280b93e2ba68841436c0bebc.png",
-          "large":   "https://vanillicon.com/7b89b0d8280b93e2ba68841436c0bebc_200.png"
-        },
-        "handle": "@rd" },
-      "content": {
-        "text": "Je pense , donc je suis"
-      },
-      "created_at": 1482222498088
-    },
-    {
-      "user": {
-        "name": "Johann von Goethe",
-        "avatars": {
-          "small":   "https://vanillicon.com/d55cf8e18b47d4baaf60c006a0de39e1_50.png",
-          "regular": "https://vanillicon.com/d55cf8e18b47d4baaf60c006a0de39e1.png",
-          "large":   "https://vanillicon.com/d55cf8e18b47d4baaf60c006a0de39e1_200.png"
-        },
-        "handle": "@johann49"
-      },
-      "content": {
-        "text": "Es ist nichts schrecklicher als eine tätige Unwissenheit."
-      },
-      "created_at": 146113796368
-    }
-  ];
+  function loadTweets() {
+    $.ajax({
+      method: 'GET',
+      url: '/tweets/',
+    })
+    .done(function(response) {
+      renderTweets(response);
+    })
+    .fail(function() {
+      console.error('The GET request failed.');
+    });
+  }
 
-  renderTweets(data);
+  loadTweets();
 
   $('#submit-tweet').on('submit', function(event) {
     event.preventDefault();
 
-    let $request = $(this).serialize();
+    let $requestData = $(this).serialize();
+    let $tweetText = $(this).find('textarea').val();
 
-    $.ajax({
-      method: 'POST',
-      url: '/tweets/',
-      data: $request
-    })
-    .done(function() {
-      console.log('done');
-    })
-    .fail(function() {
-      console.error('The POST failed.');
-    });
+    if ($tweetText === "") {
+      $('#flash').text('Please enter a tweet');
+      $('#flash').fadeIn('fast', function() {
+        $(this).delay(2500).fadeOut('fast');
+      });
+    } else if ($tweetText.length > 140) {
+      $('#flash').text('Tweet is over 140 characters');
+      $('#flash').fadeIn('fast', function() {
+        $(this).delay(2500).fadeOut('fast');
+      });
+    } else {
+      $.ajax({
+        method: 'POST',
+        url: '/tweets/',
+        data: $requestData
+      })
+      .done(function() {
+        loadTweets();
+      })
+      .fail(function() {
+        console.error('The POST request failed.');
+      });
+    }
   });
-
-  $('.tweet').hover(function() {
-    $(this).find(".hover-icons").css("visibility", "visible");
-    $(this).css("border-color", "#888");
-    $(this).find(".avatar").css("filter", "saturate(100%)")
-  }, function() {
-    $(this).find(".hover-icons").css("visibility", "hidden");
-    $(this).css("border-color", "#ddd");
-    $(this).find(".avatar").css("filter", "saturate(60%)");
-  });
-
-
 });

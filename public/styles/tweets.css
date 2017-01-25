@@ -55,3 +55,15 @@
   color: #31cdba;
   visibility: hidden;
 }
+
+.tweet:hover .hover-icons {
+  visibility: visible;
+}
+
+.tweet:hover {
+  border-color: #888;
+}
+
+.tweet:hover .avatar {
+  filter: saturate(100%);
+}
