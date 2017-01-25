@@ -115,12 +115,21 @@ $(document).ready(function() {
         url: '/tweets/',
         data: $requestData
       })
-      .done(function() {
+      .done(() => {
+        let $this = $(this);
+        $this.find('textarea').val('');
+        $this.children('.counter').text('140');
         loadTweets();
       })
       .fail(function() {
         console.error('The POST request failed.');
       });
     }
+  });
+
+  $('#compose').on('click', function() {
+    $('.container .new-tweet').slideToggle('fast', function(){
+      $(this).find('textarea').focus();
+    });
   });
 });

@@ -1,18 +1,15 @@
 .new-tweet {
   background-color: #eee;
-  margin: 2em;
+  margin: 1em 2em;
   padding: 1em;
-  border-style: solid;
-  border-color: #ddd;
-  border-width: thin;
+  border: thin solid #ddd;
   border-radius: 5px;
+  display: none;
 }
 
 .new-tweet h2 {                 /* "Compose Tweet" */
   margin: 0 0 20px 0;
-  border-bottom-style: solid;
-  border-bottom-width: thin;
-  border-bottom-color: black;
+  border-bottom: thin solid black;
 }
 
 .new-tweet textarea {        /* "What are you humming about?" */

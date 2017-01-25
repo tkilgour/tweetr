@@ -1,8 +1,6 @@
 .tweet {
-  margin: 2em;
-  border-style: solid;
-  border-color: #ddd;
-  border-width: thin;
+  margin: 1em 2em;
+  border: thin solid #ddd;
   border-radius: 5px;
 }
 
@@ -44,9 +42,7 @@
 
 .tweet footer {
   padding: 1em;
-  border-top-style: solid;
-  border-top-color: #eee;
-  border-top-width: thin;
+  border-top: thin solid #eee;
   font-size: 10px;
 }
 
