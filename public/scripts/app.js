@@ -81,7 +81,7 @@ $(document).ready(function() {
   function likeTweet(tweetID, likeStatus) {
     $.ajax({
       method: 'POST',
-      url: '/tweets/like-tweet?_method=PUT',
+      url: '/tweets/tweet?_method=PUT',
       data: 'tweetID='+tweetID+'&likeStatus='+likeStatus
     })
     .done(function() {

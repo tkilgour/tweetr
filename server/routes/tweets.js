@@ -46,7 +46,7 @@ module.exports = function(DataHelpers) {
     });
   });
 
-  tweetsRoutes.put("/like-tweet", function(req, res) {
+  tweetsRoutes.put("/tweet", function(req, res) {
     DataHelpers.likeTweet(req.body.tweetID, req.body.likeStatus, (err) => {
       if (err) {
         res.status(500);
