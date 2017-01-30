@@ -51,7 +51,7 @@ $(document).ready(function() {
 
   function createTweetElement(tweetObj) {
     let $tweet = $(`
-      <article class="tweet">
+      <article data-tweet-id="${tweetObj._id}" class="tweet">
         <header>
           <img class="avatar" src="${tweetObj.user.avatars.small}">
           <span class="name">${escape(tweetObj.user.name)}</span>
@@ -63,7 +63,7 @@ $(document).ready(function() {
           <div class="hover-icons">
             <i class="fa fa-flag" aria-hidden="true"></i>
             <i class="fa fa-retweet" aria-hidden="true"></i>
-            <i class="fa fa-heart" aria-hidden="true"></i>
+            <i class="fa fa-heart" data-liked="${tweetObj.likes}" aria-hidden="true"></i>
           </div>
         </footer>
       </article>
@@ -78,6 +78,19 @@ $(document).ready(function() {
     }
   }
 
+  function likeTweet(tweetID, likeStatus) {
+    $.ajax({
+      method: 'POST',
+      url: '/tweets/like-tweet?_method=PUT',
+      data: 'tweetID='+tweetID+'&likeStatus='+likeStatus
+    })
+    .done(function() {
+    })
+    .fail(function() {
+      console.error('The POST request failed.');
+    });
+  }
+
   function loadTweets() {
     $.ajax({
       method: 'GET',
@@ -85,6 +98,30 @@ $(document).ready(function() {
     })
     .done(function(response) {
       renderTweets(response);
+
+      $('.fa-heart').on('click', function() {
+        let $heart = $(this)
+        const tweetID = $heart.closest('.tweet').data('tweet-id');
+
+        if ($heart.data('liked')) {
+          likeTweet(tweetID, false);
+          $heart.css({
+            'visibility': 'inherit',
+            'color': 'inherit'
+          });
+          $heart.data('liked', false);
+        } else {
+          likeTweet(tweetID, true);
+          $heart.css({
+            'visibility': 'visible',
+            'color': 'red'
+          });
+          $heart.data('liked', true);
+        }
+
+        console.log('That tweet you clicked now has a like status of ', $heart.data('liked'));
+      });
+
     })
     .fail(function() {
       console.error('The GET request failed.');

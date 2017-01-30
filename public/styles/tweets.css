@@ -63,3 +63,12 @@
 .tweet:hover .avatar {
   filter: saturate(100%);
 }
+
+i[data-liked="true"] {
+  visibility: visible;
+  color: red;
+}
+
+.fa-heart:hover {
+  color: red;
+}
